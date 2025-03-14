@@ -1,9 +1,9 @@
 # Digit Recognition Web Application
 
-<img src="https://img.shields.io/badge/AWS-EC2-orange" alt="AWS EC2">
-<img src="https://img.shields.io/badge/Python-Flask-blue" alt="Flask">
-<img src="https://img.shields.io/badge/ML-PyTorch-red" alt="PyTorch">
-<img src="https://img.shields.io/badge/Container-Docker-blue" alt="Docker">
+![aws-ec2](https://img.shields.io/badge/AWS-EC2-orange)
+![python-flask](https://img.shields.io/badge/Python-Flask-blue)
+![ml-pytorch](https://img.shields.io/badge/ML-PyTorch-red)
+![container-docker](https://img.shields.io/badge/Container-Docker-blue)
 
 A web application that allows users to draw digits on a 28x28 grid and uses a trained convolutional neural network (CNN) to recognize the drawn digit.
 
@@ -40,5 +40,5 @@ A web application that allows users to draw digits on a 28x28 grid and uses a tr
 
 #### Screenshot
 
-![Digit Recognition App Screenshot](/aws-examples/assets/mnist-server-screenshot.png)
+![Digit Recognition App Screenshot](assets/mnist-server-screenshot.png)
 
