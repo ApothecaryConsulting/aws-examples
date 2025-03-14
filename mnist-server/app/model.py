@@ -1,3 +1,12 @@
+"""PyTorch convolutional neural network for classifying handwritten digits.
+
+This module implements a CNN architecture optimized for the MNIST dataset
+of handwritten digits. It provides model definition, training and testing
+functionality.
+
+Source: https://github.com/pytorch/examples/tree/main/mnist
+"""
+
 import argparse
 import torch
 import torch.nn as nn
@@ -8,12 +17,19 @@ from torch.optim.lr_scheduler import StepLR
 
 
 class CNN(nn.Module):
-    """
-    ...
+    """Convolutional Neural Network for handwritten digit classification.
+
+    This network is designed to classify handwritten digits (0-9) from
+    the MNIST dataset. It consists of convolutional layers followed by
+    fully connected layers to perform the classification.
     """
 
     def __init__(self):
-        """..."""
+        """Initialize the CNN architecture with predefined layers.
+
+        The network is initialized with convolutional layers, pooling,
+        dropout for regularization, and fully connected layers.
+        """
 
         super(CNN, self).__init__()
         self.conv1 = nn.Conv2d(1, 32, 3, 1)
@@ -24,7 +40,16 @@ class CNN(nn.Module):
         self.fc2 = nn.Linear(128, 10)
 
     def forward(self, x):
-        """..."""
+        """Forward pass of the CNN.
+
+        Args:
+            x: Input tensor of shape (batch_size, 1, 28, 28) representing
+               grayscale images of handwritten digits.
+
+        Returns:
+            Output tensor of shape (batch_size, 10) containing the logits
+            for each digit class (0-9).
+        """
 
         x = self.conv1(x)
         x = F.relu(x)
@@ -50,7 +75,20 @@ class CNN(nn.Module):
 
 
 def train(args, model, device, train_loader, optimizer, epoch):
-    """..."""
+    """Train the model for one epoch.
+
+    Args:
+        args: Command-line arguments containing training hyperparameters
+             like batch size and learning rate.
+        model: The neural network model to train.
+        device: The device (CPU/GPU) to perform training on.
+        train_loader: DataLoader providing the training data in batches.
+        optimizer: The optimizer for updating model parameters.
+        epoch: The current epoch number (used for logging).
+
+    Returns:
+        Average training loss for this epoch.
+    """
 
     model.train()
     for batch_idx, (data, target) in enumerate(train_loader):
@@ -75,7 +113,16 @@ def train(args, model, device, train_loader, optimizer, epoch):
 
 
 def test(model, device, test_loader):
-    """..."""
+    """Evaluate the model on the test dataset.
+
+    Args:
+        model: The neural network model to evaluate.
+        device: The device (CPU/GPU) to perform testing on.
+        test_loader: DataLoader providing the test data in batches.
+
+    Returns:
+        A tuple containing the average test loss and accuracy as a percentage.
+    """
 
     model.eval()
     test_loss = 0
@@ -105,7 +152,11 @@ def test(model, device, test_loader):
 
 
 def main():
-    """..."""
+    """Main function to run the training and evaluation of the CNN model.
+
+    This function parses arguments, sets up the device, loads data,
+    initializes the model, and executes the training/testing loop.
+    """
 
     # Training settings
     parser = argparse.ArgumentParser(description="PyTorch MNIST Example")

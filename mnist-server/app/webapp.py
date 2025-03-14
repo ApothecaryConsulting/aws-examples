@@ -1,3 +1,9 @@
+"""Flask web application for handwritten digit classification.
+
+This module implements a web interface that allows users to draw digits on a
+28x28 grid. The drawing is then classified using a pre-trained CNN model.
+"""
+
 import logging
 import os
 import numpy as np
@@ -43,31 +49,42 @@ MODEL.load_state_dict(
 )
 
 
-# Default route
 @app.route("/")
 def index():
+    """Serve the main page of the application.
+
+    Returns:
+        str: Rendered HTML template for the main page.
+    """
+
     return render_template("index.html")
 
 
-# Process the drawing and classify the digit
 @app.route("/predict", methods=["POST"])
 def predict():
+    """Process the drawing data and perform digit classification.
+
+    This endpoint receives the grid data from the frontend, converts it to
+    the format expected by the model, runs inference, and returns the
+    prediction results.
+
+    Returns:
+        flask.Response: JSON response containing the prediction result,
+        confidence score, and status message.
+    """
+
     data = request.get_json()
+
+    # Convert the grid data to a Pytorch tensor
     grid_data = data["grid"]
-
-    # Convert the grid data to a numpy array
     grid_array = np.array(grid_data, dtype=np.float32) / 1.0
-
     data = torch.reshape(torch.tensor(grid_array), (1, 1, 28, 28))
 
-    # Here you would pass the grid data to your model
-    # As requested, model code is removed and would be in a separate file
-    # This is a placeholder for demonstration
+    # Calculate prediction and confidence using the Pytorch model
     output = MODEL(data)
     prediction = output.argmax(dim=1, keepdim=True)
     confidence, _ = torch.max(torch.nn.functional.softmax(output, dim=1), 1)
 
-    # Return results
     return jsonify(
         {
             "prediction": prediction.item(),
@@ -77,14 +94,30 @@ def predict():
     )
 
 
-# HTML template for the web interface
 @app.route("/templates/index.html")
 def get_template():
+    """Serve the index.html template.
+
+    This route is an alternative way to access the main page template.
+
+    Returns:
+        str: Rendered HTML template for the main page.
+    """
+
     return render_template("index.html")
 
 
-# Create HTML template
 def create_template():
+    """Create the HTML template file if it doesn't exist.
+
+    This function generates the index.html file with all the necessary HTML,
+    CSS, and JavaScript for the web interface. It creates the templates
+    directory if needed.
+
+    Returns:
+        None
+    """
+
     if not os.path.exists("templates"):
         os.makedirs("templates")
 
@@ -326,7 +359,9 @@ def create_template():
 
 
 if __name__ == "__main__":
+
     # Create template file
     create_template()
+
     # Run the Flask application
     app.run(debug=False)
